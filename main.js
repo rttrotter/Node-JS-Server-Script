@@ -5,8 +5,8 @@ Application: server REST endpoint
 
 //includes
 var https = require('https'); //create https object
-var JSON = require('JSON');
-var reverse = "";
+//variables
+var reverse = ""; 
 
 
 //setting up server settings
@@ -32,20 +32,25 @@ http.createServer(function (inbound, outbound)
 	inbound.on('data', function (chunk)
 	{
 		msgBody += chunk;
+		
 	});
 	//listening for end events
 	inbound.on('end', function()
 	(
-		console.log('POST RAW JSON: '+ body); // testing to print out output
+		console.log('POST RAW JSON: '+ msgBody); // testing to print out output
+		var jHolder = JSON.stringify(msgBody);
+		//create for loop to flip the script
+		//set it up for last character, then iterate through the string backwards
+		for(var i = jHolder.length-1; i < 0; i--)
+		{
+			reverse += jHolder.charAt(i);
+		}
+		//creates a header for the data. sets success code to 200, and styles it for json sending
+		var inputHolder = jHolder;
+		outbound.writeHead(200, {'Content-Tyle': 'application/json' });
+		//sends the information out
+		//write the data to the user by making it a json
+		outbound.end(reverse);
 	}
-//creates a header for the data. sets success code to 200, and styles it for json sending
-outbound.writeHead(200, {'Content-Tyle': 'application/json' }); 
-//sends the information out
-//write the data to the user by making it a json
-outbound.end(JSON.stringify({
-	data: 'hello world!'
-}));
-
-
 
 }).listen(9001); // server will listen on port 9001
