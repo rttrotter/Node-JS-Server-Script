@@ -18,7 +18,7 @@ let msg = JSON.stringify(
 //connection information, who we're trying to contact
 const options = 
 {
-	hostname: 127.0.0.1,//server address
+	hostname: 'localhost',//server address
 	port: 9001,//port we're listening on
 	path: './testing',//folder for related items?
 	method: 'POST',//using post for deciphering requests
@@ -36,7 +36,7 @@ let requestPost = https.request(options, function(result)
 	result.on('data', function(chunk)
 	{
 		console.log(chunk);//send the result to the console
-	}
+	});
 	
 });
 
@@ -46,5 +46,5 @@ requestPost.end();//send the end of writing the message
 //error handling
 requestPost.on('error', function (error)
 {
-	console.error(err);
+	console.error(error);
 });
