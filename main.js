@@ -4,7 +4,7 @@ Application: server REST endpoint
 ********************************/
 
 //includes
-var https = require('https'); //create https object
+var https = require('http'); //create https object
 //variables
 let reverse = ''; // blank variable to hold the reverse of the message 
 

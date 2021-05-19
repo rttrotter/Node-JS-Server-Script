@@ -5,7 +5,7 @@ Script: JSON client tester
 *********************************************/
 
 //includes
-const https = require('https');
+const https = require('http');
 
 //variables
 
