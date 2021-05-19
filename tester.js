@@ -8,7 +8,7 @@ Script: JSON client tester
 const https = require('http');
 
 //variables
-
+let recieved = "";
 //create a JSON object and turn it into a string to send to our server
 let msg = JSON.stringify(
 {
@@ -35,7 +35,12 @@ let requestPost = https.request(options, function(result)
 	
 	result.on('data', function(chunk)
 	{
-		console.log(chunk);//send the result to the console
+		recieved += chunk;//send the result to the console
+	});
+	result.on('end', function()
+	{
+		var jholder = JSON.parse(recieved);
+		console.log(JSON.stringify(jholder));
 	});
 	
 });

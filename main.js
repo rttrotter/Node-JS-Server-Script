@@ -6,32 +6,19 @@ Application: server REST endpoint
 //includes
 var https = require('http'); //create https object
 //variables
-let reverse = ''; // blank variable to hold the reverse of the message 
+let reverse = ""; // blank string variable to hold the reverse of the message 
 
-/*
-//setting up server settings
-const options = 
-{
-	hostname: 127.0.0.1,//what the server will be listening for
-	port: 9001,//port we're listening on
-	path: './testing',//folder for related items?
-	method: 'POST',//using post for deciphering requests
-	headers: 
-	{
-		'Content-Type': 'application/json',//using length
-		'Content-Length': data.length
-	}
-}
-*/
 //create the server
-
 https.createServer(function (inbound, outbound) 
 {
 	if(https.method == 'POST')
 	{
 		console.log("POST");// testing statement
 	}
-	
+	if(https.method == 'GET')
+	{
+		console.log("GET");// testing statement
+	}
 	var msgBody = ""; //create a blank message body
 	//when recieving data, append it to the msgBody
 	//listening to data events 
@@ -44,21 +31,29 @@ https.createServer(function (inbound, outbound)
 	//listening for end events
 	inbound.on('end', function()
 	{
-		console.log("in inbound.on data");
-		console.log('POST RAW JSON: '+ msgBody); // testing to print out output
-		var jHolder = JSON.stringify(msgBody);
-		//create for loop to flip the script
-		//set it up for last character, then iterate through the string backwards
-		for(var i = jHolder.length-1; i < 0; i--)
+		try// error catching
 		{
-			reverse += jHolder.charAt(i);
+			console.log("in inbound.on data");
+			console.log('POST RAW JSON: '+ msgBody); // testing to print out output
+			var jHolder = JSON.parse(msgBody);
+			var message = jHolder.Data;
+			console.log(message);
+			//create for loop to flip the script
+			//set it up for last character, then iterate through the string backwards
+			for(var i = message.length-1; i > -1; i--) // make sure to include postion 0, hence stoping greater than -1
+			{
+				reverse += message.charAt(i);//put the backwareds string together
+			}
+			console.log(reverse);//testing statement to make sure we have the string
+			outbound.writeHead(200, {'Content-Tyle': 'application/json' });
+			//sends the information out
+			//write the data to the user by making it a json
+			outbound.end(JSON.stringify({'Data': reverse}));
 		}
-		//creates a header for the data. sets success code to 200, and styles it for json sending
-		var inputHolder = jHolder;
-		outbound.writeHead(200, {'Content-Tyle': 'application/json' });
-		//sends the information out
-		//write the data to the user by making it a json
-		outbound.end(JSON.stringify({'data': reverse}));
+		catch(error)
+		{
+			console.error(error.message);//print to console what the error was
+		};
 	});
 
 }).listen(9001); // server will listen on port 9001
