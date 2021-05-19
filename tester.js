@@ -20,7 +20,7 @@ const options =
 {
 	hostname: 'localhost',//server address
 	port: 9001,//port we're listening on
-	path: './testing',//folder for related items?
+	path: '/post',//folder for related items?
 	method: 'POST',//using post for deciphering requests
 	headers: 
 	{

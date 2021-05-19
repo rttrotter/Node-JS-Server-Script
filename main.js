@@ -24,20 +24,27 @@ const options =
 }
 */
 //create the server
+
 https.createServer(function (inbound, outbound) 
 {
+	if(https.method == 'POST')
+	{
+		console.log("POST");// testing statement
+	}
+	
 	var msgBody = ""; //create a blank message body
 	//when recieving data, append it to the msgBody
 	//listening to data events 
-	inbound.on('data', function()
+	inbound.on('data', function(chunk)
 	{
-		
+		console.log("in inbound.on data");
 		msgBody += chunk;
 		
 	});
 	//listening for end events
 	inbound.on('end', function()
 	{
+		console.log("in inbound.on data");
 		console.log('POST RAW JSON: '+ msgBody); // testing to print out output
 		var jHolder = JSON.stringify(msgBody);
 		//create for loop to flip the script
