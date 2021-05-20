@@ -5,7 +5,7 @@ Script: JSON client tester
 *********************************************/
 
 //includes
-const https = require('http');
+const http = require('http');
 
 //variables
 let recieved = "";
@@ -21,7 +21,7 @@ const options =
 	hostname: 'localhost',//server address
 	port: 9001,//port we're listening on
 	path: '/post',//folder for related items?
-	method: 'POST',//using post for deciphering requests
+	method: 'PUT',//using post for deciphering requests
 	headers: 
 	{
 		'Content-Type': 'application/json', //Let the server know we're sending a json
@@ -29,7 +29,7 @@ const options =
 	}
 }
 
-let requestPost = https.request(options, function(result)
+let requestPost = http.request(options, function(result)
 {
 	console.log("status code: ", result.statusCode);
 	
